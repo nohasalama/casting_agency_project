@@ -6,6 +6,7 @@ from flask_cors import CORS
 from models import setup_db, Actor, Movie
 from auth import AuthError, requires_auth
 
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
@@ -28,9 +29,9 @@ def create_app(test_config=None):
             abort(404)
 
         return jsonify({
-        'success': True,
-        'actors': [actor.format() for actor in actors]
-        }), 200
+                'success': True,
+                'actors': [actor.format() for actor in actors]
+            }), 200
 
     @app.route('/actors', methods=['POST'])
     @requires_auth('post:actors')
@@ -50,9 +51,9 @@ def create_app(test_config=None):
             actor.insert()
 
             return jsonify({
-			      'success': True,
-			      'actor': actor.format()
-		        }), 200
+                    'success': True,
+                    'actor': actor.format()
+                }), 200
 
         except:
             abort(422)
@@ -70,22 +71,22 @@ def create_app(test_config=None):
             updated_name = body.get('name', None)
             updated_age = body.get('age', None)
             updated_gender = body.get('gender', None)
-        
-            if updated_name: # check if name was updated
+
+            if updated_name:  # check if name was updated
                 actor.name = updated_name
 
-            if updated_age: # check if age was updated
+            if updated_age:  # check if age was updated
                 actor.age = updated_age
-            
-            if updated_gender: # check if gender was updated
+
+            if updated_gender:  # check if gender was updated
                 actor.gender = updated_gender
 
             actor.update()
 
             return jsonify({
-            'success': True,
-    	      'actor': actor.format()
-    	      }), 200
+                    'success': True,
+                    'actor': actor.format()
+                }), 200
 
         except:
             abort(400)
@@ -101,9 +102,9 @@ def create_app(test_config=None):
             actor.delete()
 
             return jsonify({
-            'success': True,
-            'deleted': actor.id
-            })
+                    'success': True,
+                    'deleted': actor.id
+                })
 
         except:
             abort(422)
@@ -120,9 +121,9 @@ def create_app(test_config=None):
             abort(404)
 
         return jsonify({
-        'success': True,
-        'movies': [movie.format() for movie in movies]
-        }), 200
+                'success': True,
+                'movies': [movie.format() for movie in movies]
+            }), 200
 
     @app.route('/movies', methods=['POST'])
     @requires_auth('post:movies')
@@ -141,9 +142,9 @@ def create_app(test_config=None):
             movie.insert()
 
             return jsonify({
-			      'success': True,
-			      'movie': movie.format()
-		        }), 200
+                    'success': True,
+                    'movie': movie.format()
+                }), 200
 
         except:
             abort(422)
@@ -160,19 +161,19 @@ def create_app(test_config=None):
 
             updated_title = body.get('title', None)
             updated_release_date = body.get('release_date', None)
-        
-            if updated_title: # check if title was updated
+
+            if updated_title:  # check if title was updated
                 movie.title = updated_title
 
-            if updated_release_date: # check if release date was updated
+            if updated_release_date:  # check if release date was updated
                 movie.release_date = updated_release_date
 
             movie.update()
 
             return jsonify({
-            'success': True,
-    	    'movie': movie.format()
-    	    }), 200
+                    'success': True,
+                    'movie': movie.format()
+                }), 200
 
         except:
             abort(400)
@@ -188,9 +189,9 @@ def create_app(test_config=None):
             movie.delete()
 
             return jsonify({
-            'success': True,
-            'deleted': movie.id
-            })
+                    'success': True,
+                    'deleted': movie.id
+                })
 
         except:
             abort(422)
@@ -201,34 +202,34 @@ def create_app(test_config=None):
     @app.errorhandler(400)
     def bad_request(error):
         return jsonify({
-        'success': False,
-        'error': 400,
-        'message': 'bad request'
-        }), 400
+                'success': False,
+                'error': 400,
+                'message': 'bad request'
+            }), 400
 
     @app.errorhandler(404)
     def not_found(error):
         return jsonify({
-        'success': False,
-        'error': 404,
-        'message': 'resource not found'
-        }), 404
+                'success': False,
+                'error': 404,
+                'message': 'resource not found'
+            }), 404
 
     @app.errorhandler(422)
     def unprocessable(error):
         return jsonify({
-        "success": False, 
-        "error": 422,
-        "message": "unprocessable"
-        }), 422
-        
+                "success": False,
+                "error": 422,
+                "message": "unprocessable"
+            }), 422
+
     @app.errorhandler(AuthError)
-    def auth_error(AuthError): 
+    def auth_error(AuthError):
         return jsonify({
-        "success": False, 
-        "error": AuthError.status_code,
-        "message": AuthError.error['description']
-        }), AuthError.status_code
+                "success": False,
+                "error": AuthError.status_code,
+                "message": AuthError.error['description']
+            }), AuthError.status_code
 
     return app
 

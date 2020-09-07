@@ -9,20 +9,19 @@ ALGORITHMS = ['RS256']
 API_AUDIENCE = 'Casting Agency'
 AUTH0_DOMAIN = 'casting-agency-capstone-fsnd.auth0.com'
 
-## AuthError Exception
 '''
 AuthError Exception
 A standardized way to communicate auth failure modes
 '''
+
+
 class AuthError(Exception):
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
 
 
-## Auth Header
-
-def get_token_auth_header():
+def get_token_auth_header():  # Auth Header
     auth = request.headers.get('Authorization', None)
     if not auth:
         raise AuthError({

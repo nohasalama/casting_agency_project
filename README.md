@@ -1,5 +1,7 @@
 # Full Stack Capstone Project
 
+This project is the final capstone project for the [Full Stack Web Developer Nanodegree](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd0044)
+
 ## Casting Agency
 
 The Casting Agency models a company that is responsible for managing movies and actors.
@@ -32,12 +34,10 @@ Then run `$ pip install requirements.txt`. The requirements file includes all th
 
 Run the following commands: 
 ```
-$ source setup.sh
 $ export FLASK_APP=app.py
 $ export FLASK_ENV=development
 $ flask run
 ```
-The first command sets some environment variables used by the app. The third command enables development mode.
 
 The application is run on `http://127.0.0.1:5000/` by default. 
 
@@ -56,7 +56,7 @@ python test_app.py
 ### Getting Started
 - Base URL: [https://udacity-capstone-fsnd.herokuapp.com](https://udacity-capstone-fsnd.herokuapp.com)
 
-- Authentication: This app has 3 users. All users have different roles with their corresponding tokens. All tokens are provided in the `setup.sh` file. Details about each user's role are provided below:
+- Authentication: This app has 3 users. All users have different roles with their corresponding tokens. All tokens are provided in the `test_app.py` file. Details about each user's role are provided below:
   - Casting Assistant:
 	  - Can view actors and movies
 
@@ -78,10 +78,11 @@ Errors are returned as JSON objects in the following format:
     "message": "bad request"
 }
 ```
-The API will return three error types when requests fail:
+The API will return many error types when requests fail:
 - 400: Bad Request
 - 404: Resource Not Found
-- 422: Not Processable 
+- 422: Not Processable
+- The last error handler uses AuthError which is set in the `auth.py` file
 
 ### Endpoints
 
@@ -92,7 +93,17 @@ $ curl -H "Authorization: Bearer <ACCESS_TOKEN>" -X GET https://udacity-capstone
 - fetches all actors from the database
 - sample response:
 ```
-
+{
+    "actors": [
+        {
+            "age": 45,
+            "gender": "male",
+            "id": 1,
+            "name": "Leonardo DiCaprio"
+        }
+    ],
+    "success": true
+}
 ```
 
 #### GET /movies
@@ -102,11 +113,117 @@ $ curl -H "Authorization: Bearer <ACCESS_TOKEN>" -X GET https://udacity-capstone
 - fetches all movies from the database
 - sample response:
 ```
+{
+    "movies": [
+        {
+            "id": 1,
+            "release_date": "Wed, 10 Mar 2010 00:00:00 GMT",
+            "title": "Shutter Island"
+        }
+    ],
+    "success": true
+}
+```
+#### POST /actors
+```
+$ curl -H "Authorization: Bearer <ACCESS_TOKEN>" -X POST -d '{"name":"Leonardo DiCaprio","age":45, "gender":"male"}' https://udacity-capstone-fsnd.herokuapp.com/actors
+```
+- adds a new actor to the database
+- sample response:
+```
+{
+    "actor": 
+        {
+            "age": 45,
+            "gender": "male",
+            "id": 1,
+            "name": "Leonardo DiCaprio"
+        },
+    "success": true
+}
+```
+#### POST /movies
+```
+$ curl -H "Authorization: Bearer <ACCESS_TOKEN>" -X POST -d '{"title":"Shutter Island","release_date":"03-10-2010"}' https://udacity-capstone-fsnd.herokuapp.com/movies
+```
+- adds a new movie to the database
+- sample response:
+```
+{
+    "movie":
+        {
+            "id": 1,
+            "release_date": "Wed, 10 Mar 2010 00:00:00 GMT",
+            "title": "Shutter Island"
+        }
+    ],
+    "success": true
+}
+```
+#### PATCH /actors
+```
+$ curl -H "Authorization: Bearer <ACCESS_TOKEN>" -X PATCH -d '{"name":"Leonardo Di Caprio"}' https://udacity-capstone-fsnd.herokuapp.com/actors/1
+```
+- modifies an existing actor in the database
+- sample response:
+```
+{
+    "actor": 
+        {
+            "age": 45,
+            "gender": "male",
+            "id": 1,
+            "name": "Leonardo Di Caprio"
+        },
+    "success": true
+}
+```
+#### PATCH /movies
+```
+$ curl -H "Authorization: Bearer <ACCESS_TOKEN>" -X PATCH -d '{"title":"shutter island"}' https://udacity-capstone-fsnd.herokuapp.com/movies/1
+```
+- modifies an existing movie in the database
+- sample response:
+```
+{
+    "movie":
+        {
+            "id": 1,
+            "release_date": "Wed, 10 Mar 2010 00:00:00 GMT",
+            "title": "shutter island"
+        }
+    ],
+    "success": true
+}
+```
+#### DELETE /actors
+```
+$ curl -H "Authorization: Bearer <ACCESS_TOKEN>" -X DELETE https://udacity-capstone-fsnd.herokuapp.com/actors/1
+```
+- deletes an existing actor from the database
+- sample response:
+```
+{
+    "deleted": 1,
+    "success": true
+}
+```
+#### PATCH /movies
+```
+$ curl -H "Authorization: Bearer <ACCESS_TOKEN>" -X DELETE https://udacity-capstone-fsnd.herokuapp.com/movies/1
+```
+- deletes an existing movie from the database
+- sample response:
+```
+{
+    "deleted": 1,
+    "success": true
+}
 ```
 
+
 ## Authors
-Noha Salama has written the APIs in `__init__.py`, the test cases in `test_flaskr.py` and this README.
-The rest of the project files, including the models and the frontend, were created by [Udacity](https://www.udacity.com/) as a project base code for project 2 for the [Full Stack Web Developer Nanodegree](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd0044).
+Noha Salama has deveopled all files in this repo.
 
 ## Acknowledgements 
 The awesome team at Udacity
